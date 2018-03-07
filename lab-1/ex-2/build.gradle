@@ -1,0 +1,22 @@
+import java.nio.file.*;
+
+apply plugin: 'java'
+
+processResources {
+	def extension = '.properties'
+	def defaultProfileName = 'default'
+	def profilePath = project.rootDir.getAbsolutePath() + '/profiles/'
+
+	if (project.hasProperty('profile') && Files.exists(Paths.get(profilePath + project.profile + extension)) ) {
+		profilePath += project.profile
+	} else {
+		profilePath += defaultProfileName
+	}
+	
+	profilePath += extension
+
+	from(profilePath) {
+		rename { 'db.properties' }
+		into '.'
+	}
+}

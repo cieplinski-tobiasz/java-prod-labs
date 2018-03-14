@@ -1,7 +1,19 @@
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 repositories {
 	mavenCentral()
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId 'com.gmail.cieplinskit'
+            		artifactId 'javaprod-ex1'
+            		version '1'
+			artifact customFatJar
+		}
+	}
 }
 
 dependencies {

@@ -1,0 +1,54 @@
+group 'com.gmail.cieplinskit'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: "jacoco"
+
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'com.gmail.cieplinskit'
+            artifactId 'javaprod-ex2'
+            version '1'
+            artifact customFatJar
+        }
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile "org.mockito:mockito-core:2.+"
+    testCompile 'org.assertj:assertj-core:3.9.0'
+    testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    testCompile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
+    testCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.4'
+
+    compile group: 'com.google.code.gson', name: 'gson', version: '1.7.2'
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'application.Application'
+    }
+
+    baseName = 'transaction-generator'
+    from { configurations.compile.collect { it.directory ? it : zipTree(it) } }
+    with jar
+}
+
+test {
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }
+}

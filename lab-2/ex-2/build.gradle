@@ -34,10 +34,10 @@ dependencies {
 
 task customFatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class': 'Main'
+        attributes 'Main-Class': 'application.Application'
     }
 
-    baseName = 'all-in-one-jar'
+    baseName = 'transaction-generator'
     from { configurations.compile.collect { it.directory ? it : zipTree(it) } }
     with jar
 }

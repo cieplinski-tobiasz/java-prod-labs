@@ -1,0 +1,43 @@
+group 'com.cieplinskit.gmail'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+task customFatJar(type: Jar) {
+    baseName = 'loggers-hell'
+
+    manifest {
+        attributes "Main-Class": "Application"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    with jar
+}
+
+dependencies {
+    compile 'ch.qos.logback:logback-classic:1.2.3'
+
+    compile ('org.apache.logging.log4j:log4j-to-slf4j:2.10.0') {
+        exclude group: "org.slf4j"
+    }
+
+    compile('com.external:Payments:1.0-SNAPSHOT') {
+        exclude group: 'org.apache.logging.log4j'
+    }
+
+    compile ('org.slf4j:log4j-over-slf4j:1.7.25') {
+        exclude group: 'org.slf4j'
+    }
+
+    compile('com.internal:Tools:1.0-SNAPSHOT') {
+        exclude group: 'log4j'
+    }
+}

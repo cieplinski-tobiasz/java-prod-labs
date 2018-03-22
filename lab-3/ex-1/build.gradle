@@ -1,31 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
 group 'com.cieplinskit.gmail'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
 
 repositories {
     mavenCentral()
     mavenLocal()
 }
 
-task customFatJar(type: Jar) {
-    baseName = 'loggers-hell'
-
+jar {
     manifest {
-        attributes "Main-Class": "Application"
+        attributes 'Main-Class': 'app/Application'
     }
+}
 
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-
-    with jar
+shadowJar {
+    baseName = 'loggers-hell'
+    classifier = null
+    version = null
 }
 
 dependencies {
     compile 'ch.qos.logback:logback-classic:1.2.3'
 
-    compile ('org.apache.logging.log4j:log4j-to-slf4j:2.10.0') {
+    compile('org.apache.logging.log4j:log4j-to-slf4j:2.10.0') {
         exclude group: "org.slf4j"
     }
 
@@ -33,7 +42,7 @@ dependencies {
         exclude group: 'org.apache.logging.log4j'
     }
 
-    compile ('org.slf4j:log4j-over-slf4j:1.7.25') {
+    compile('org.slf4j:log4j-over-slf4j:1.7.25') {
         exclude group: 'org.slf4j'
     }
 

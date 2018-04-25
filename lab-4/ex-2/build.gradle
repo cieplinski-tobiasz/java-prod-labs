@@ -1,0 +1,87 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.3'
+    }
+}
+
+group 'com.gmail.cieplinskit'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: "jacoco"
+apply plugin: 'com.github.johnrengelman.plugin-shadow'
+
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'com.gmail.cieplinskit'
+            artifactId 'javaprod-ex2'
+            version '1'
+        }
+    }
+}
+
+test {
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile "org.mockito:mockito-core:2.+"
+    testCompile 'org.assertj:assertj-core:3.9.0'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+
+    compile ('com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5') {
+        exclude group: 'com.fasterxml.jackson.core'
+    }
+
+    compile ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4') {
+        exclude group: 'com.fasterxml.jackson.core'
+    }
+
+    compile ('com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.4') {
+        exclude group: 'com.fasterxml.jackson.core'
+    }
+
+    compile group: 'net.sf.jopt-simple', name: 'jopt-simple', version: '5.0.3'
+    compile 'org.springframework:spring-context:5.0.5.RELEASE'
+    compile group: 'net.sf.jopt-simple', name: 'jopt-simple', version: '5.0'
+
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+}
+
+test {
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
+    }
+}
+
+shadowJar {
+    baseName = 'transaction-generator'
+    classifier = ''
+    version = ''
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'app.spring.Application'
+    }
+}

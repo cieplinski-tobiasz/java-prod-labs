@@ -44,8 +44,8 @@ dependencies {
     testCompile "org.mockito:mockito-core:2.+"
     testCompile 'org.assertj:assertj-core:3.9.0'
 
-    compileClasspath 'org.slf4j:slf4j-log4j12:1.7.25'
-    compileClasspath group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
+    compile 'org.slf4j:slf4j-log4j12:1.7.25'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
 

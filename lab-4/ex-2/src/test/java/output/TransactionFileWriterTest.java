@@ -67,16 +67,6 @@ public class TransactionFileWriterTest {
     }
 
     @Test
-    public void shouldWriteTransactionsThrowIllegalArgumentExceptionWhenPathIsNotADirectory() {
-        when(files.isDirectory(any())).thenReturn(false);
-        TransactionFileWriter uut = new TransactionFileWriter(serializer, files);
-
-        Throwable thrown = catchThrowable(() -> uut.writeTransactions(Collections.singletonList(transaction), path));
-
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
     public void shouldWriteTransactionsCallCreateDirectoryIfDirectoryIsMissing() throws IOException {
         when(files.isDirectory(any())).thenReturn(true);
         when(files.notExists(any())).thenReturn(true);

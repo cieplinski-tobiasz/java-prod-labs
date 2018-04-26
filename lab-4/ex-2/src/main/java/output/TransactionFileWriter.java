@@ -23,21 +23,13 @@ public final class TransactionFileWriter {
     private final FilesWrapper files;
 
     public void writeTransactions(@NonNull List<Transaction> transactions, @NonNull Path path) {
-        validatePathIsDirectory(path);
+        Path absolute = path.toAbsolutePath();
 
-        if (isDirectoryMissing(path)) {
-            createDirectory(path);
+        if (isDirectoryMissing(absolute)) {
+            createDirectory(absolute);
         }
 
-        transactions.forEach(transaction -> writeTransaction(transaction, path));
-    }
-
-    private void validatePathIsDirectory(Path path) {
-        if (!files.isDirectory(path)) {
-            IllegalArgumentException iae = new IllegalArgumentException("Given path is not a directory.");
-            log.warn("Wrong output directory parameter.", iae);
-            throw iae;
-        }
+        transactions.forEach(transaction -> writeTransaction(transaction, absolute));
     }
 
     private boolean isDirectoryMissing(Path path) {

@@ -1,5 +1,7 @@
 package serializers;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,7 @@ import model.Purchase;
 import model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +29,7 @@ public final class TransactionDtoFactory {
     }
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    @JacksonXmlRootElement(localName = "transaction")
     public static final class TransactionDto {
         public final int id;
         public final String timestamp;

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Component
-public class PathParser implements Parser<Path> {
+public final class PathParser implements Parser<Path> {
     @Override
     public Path parse(String value) {
         return Paths.get(value);

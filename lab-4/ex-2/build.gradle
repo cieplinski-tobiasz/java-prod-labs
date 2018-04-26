@@ -34,7 +34,7 @@ publishing {
 
 test {
     testLogging {
-        outputs.upToDateWhen {false}
+        outputs.upToDateWhen { false }
         showStandardStreams = true
     }
 }
@@ -43,8 +43,9 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.mockito:mockito-core:2.+"
     testCompile 'org.assertj:assertj-core:3.9.0'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
+
+    compileClasspath 'org.slf4j:slf4j-log4j12:1.7.25'
+    compileClasspath group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.0'
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
 
@@ -76,11 +77,8 @@ test {
 
 shadowJar {
     baseName = 'transaction-generator'
-    classifier = ''
     version = ''
-}
 
-jar {
     manifest {
         attributes 'Main-Class': 'app.spring.Application'
     }

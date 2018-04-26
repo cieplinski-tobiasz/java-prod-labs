@@ -3,6 +3,7 @@ package app.spring;
 import app.spring.conditions.JsonCondition;
 import app.spring.conditions.XmlCondition;
 import app.spring.conditions.YamlCondition;
+import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;

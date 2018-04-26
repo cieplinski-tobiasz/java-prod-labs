@@ -34,15 +34,12 @@ public class GeneratorConfigSupplierTest {
     private Parser<Range<ZonedDateTime>> dateTimeParser;
 
     @Mock
-    private Parser<Integer> intParser;
-
-    @Mock
     private Parser<Path> pathParser;
 
     @Test
     public void shouldConstructorThrowNullPointerExceptionWhenEnvironmentIsNull() {
         Throwable thrown = catchThrowable(() ->
-                new GeneratorConfigSupplier(null, intRangeParser, dateTimeParser, intParser, pathParser));
+                new GeneratorConfigSupplier(null, intRangeParser, dateTimeParser, pathParser));
 
         assertThat(thrown).isInstanceOf(NullPointerException.class);
     }
@@ -50,7 +47,7 @@ public class GeneratorConfigSupplierTest {
     @Test
     public void shouldConstructorThrowNullPointerExceptionWhenIntRangeParserIsNull() {
         Throwable thrown = catchThrowable(() ->
-                new GeneratorConfigSupplier(environment, null, dateTimeParser, intParser, pathParser));
+                new GeneratorConfigSupplier(environment, null, dateTimeParser, pathParser));
 
         assertThat(thrown).isInstanceOf(NullPointerException.class);
     }
@@ -58,15 +55,7 @@ public class GeneratorConfigSupplierTest {
     @Test
     public void shouldConstructorThrowNullPointerExceptionWhenDateTimeRangeParserIsNull() {
         Throwable thrown = catchThrowable(() ->
-                new GeneratorConfigSupplier(environment, intRangeParser, null, intParser, pathParser));
-
-        assertThat(thrown).isInstanceOf(NullPointerException.class);
-    }
-
-    @Test
-    public void shouldConstructorThrowNullPointerExceptionWhenIntParserIsNull() {
-        Throwable thrown = catchThrowable(() ->
-                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, null, pathParser));
+                new GeneratorConfigSupplier(environment, intRangeParser, null, pathParser));
 
         assertThat(thrown).isInstanceOf(NullPointerException.class);
     }
@@ -74,7 +63,7 @@ public class GeneratorConfigSupplierTest {
     @Test
     public void shouldConstructorThrowNullPointerExceptionWhenPathParserIsNull() {
         Throwable thrown = catchThrowable(() ->
-                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, intParser, null));
+                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, null));
 
         assertThat(thrown).isInstanceOf(NullPointerException.class);
     }
@@ -83,10 +72,10 @@ public class GeneratorConfigSupplierTest {
     public void shouldGetCallEnvironmentSixTimesToLookForValues() {
         when(intRangeParser.parse(any())).thenReturn(mock(PositiveIntegerRange.class));
         when(pathParser.parse(any())).thenReturn(mock(Path.class));
-        when(intParser.parse(any())).thenReturn(1);
+        when(environment.getProperty("eventsCount", "100")).thenReturn("1");
         when(environment.getProperty("itemsFile", "items.csv")).thenReturn("default");
         GeneratorConfigSupplier uut =
-                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, intParser, pathParser);
+                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, pathParser);
 
         uut.get();
 
@@ -97,13 +86,13 @@ public class GeneratorConfigSupplierTest {
     public void shouldGetCallEnvironmentGetPropertyWhenEnvironmentContainsDate() {
         when(intRangeParser.parse(any())).thenReturn(mock(PositiveIntegerRange.class));
         when(pathParser.parse(any())).thenReturn(mock(Path.class));
-        when(intParser.parse(any())).thenReturn(1);
+        when(environment.getProperty("eventsCount", "100")).thenReturn("1");
         when(dateTimeParser.parse(any())).thenReturn(mock(DateTimeRange.class));
         when(environment.getProperty("itemsFile", "items.csv")).thenReturn("default");
         when(environment.containsProperty("dateRange")).thenReturn(true);
         when(environment.getProperty("dateRange")).thenReturn("date range");
         GeneratorConfigSupplier uut =
-                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, intParser, pathParser);
+                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, pathParser);
 
         uut.get();
 
@@ -114,13 +103,13 @@ public class GeneratorConfigSupplierTest {
     public void shouldGetCallDateTimeParserWhenEnvironmentContainsDate() {
         when(intRangeParser.parse(any())).thenReturn(mock(PositiveIntegerRange.class));
         when(pathParser.parse(any())).thenReturn(mock(Path.class));
-        when(intParser.parse(any())).thenReturn(1);
+        when(environment.getProperty("eventsCount", "100")).thenReturn("1");
         when(dateTimeParser.parse(any())).thenReturn(mock(DateTimeRange.class));
         when(environment.getProperty("itemsFile", "items.csv")).thenReturn("default");
         when(environment.containsProperty("dateRange")).thenReturn(true);
         when(environment.getProperty("dateRange")).thenReturn("date range");
         GeneratorConfigSupplier uut =
-                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, intParser, pathParser);
+                new GeneratorConfigSupplier(environment, intRangeParser, dateTimeParser, pathParser);
 
         uut.get();
 

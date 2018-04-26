@@ -29,8 +29,6 @@ public final class GeneratorConfigSupplier implements Supplier<GeneratorConfig> 
     @NonNull
     private final Parser<Range<ZonedDateTime>> dateTimeParser;
     @NonNull
-    private final Parser<Integer> intParser;
-    @NonNull
     private final Parser<Path> pathParser;
 
     @Override
@@ -66,7 +64,7 @@ public final class GeneratorConfigSupplier implements Supplier<GeneratorConfig> 
     }
 
     private int getEventsCount() {
-        return intParser.parse(env.getProperty("eventsCount", "100"));
+        return Integer.valueOf(env.getProperty("eventsCount", "100"));
     }
 
     private Range<ZonedDateTime> getDateRange() {

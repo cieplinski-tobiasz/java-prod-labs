@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <JsonLayout>
+            </JsonLayout>
+        </Console>
+        <RollingFile name="RollingFile" fileName="logs/transaction-generator.log"
+                     filePattern="logs/transaction-generator-%d{ISO8601}.log"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d [%t] %level %m</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
